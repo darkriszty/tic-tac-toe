@@ -4,16 +4,10 @@ class BoardPainter:
     _width = 150
     _height = 150
 
-    def __init__(self, left, top):
+    def __init__(self, tk, left, top):
         self._left = left
         self._top = top
-        #TODO extract the window creation from here
-
-        self._tk = Tk()
-        self._tk.title("Tic Tac Toe")
-        #tk.resizable(False, False)
-        self._tk.wm_attributes("-topmost", 1)
-        self._canvas = Canvas(self._tk, width=800, height=600, bg="#eeeeee")
+        self._canvas = Canvas(tk, width=800, height=600, bg="#eeeeee")
         self._canvas.pack()
 
     def paint(self, board):
@@ -21,9 +15,6 @@ class BoardPainter:
         for rowIndex in range(len(board)):
             for colIndex in range(len(board[rowIndex])):
                 self._paint_sign(board[rowIndex][colIndex], colIndex, rowIndex)
-        #self._tk.update_idletasks()
-        #self._tk.update()
-        self._tk.mainloop()
 
     def _paint_empty_board(self):
         self._canvas.create_rectangle(self._left, self._top, self._left + self._width, self._top + self._height, fill="#dddddd", outline="")
@@ -49,9 +40,16 @@ class BoardPainter:
             self._canvas.create_line(x2, y1, x1, y2)
 
 if __name__ == '__main__':
-    painter = BoardPainter(50, 50)
+    tk = Tk()
+    tk.title("Tic Tac Toe")
+    #tk.resizable(False, False)
+    tk.wm_attributes("-topmost", 1)
+
+    painter = BoardPainter(tk, 50, 50)
     painter.paint([
             ["X", "X", "X"],
             ["0", "", "0"],
             ["", "", "X"]
     ])
+
+    tk.mainloop()
