@@ -3,18 +3,22 @@ from tkinter import *
 class BoardPainter:
     _width = 150
     _height = 150
+    _canvas = None
+    _board = None
 
-    def __init__(self, tk, left, top):
+    def __init__(self, canvas, board, left, top):
         self._left = left
         self._top = top
-        self._canvas = Canvas(tk, width=800, height=600, bg="#eeeeee")
+        self._canvas = canvas
+        self._board = board
         self._canvas.pack()
+        self._board.on_next_move = self._paint
 
-    def paint(self, board):
+    def _paint(self):
         self._paint_empty_board()
-        for rowIndex in range(len(board)):
-            for colIndex in range(len(board[rowIndex])):
-                self._paint_sign(board[rowIndex][colIndex], colIndex, rowIndex)
+        for rowIndex in range(len(self._board.data)):
+            for colIndex in range(len(self._board.data[rowIndex])):
+                self._paint_sign(self._board.data[rowIndex][colIndex], colIndex, rowIndex)
 
     def _paint_empty_board(self):
         self._canvas.create_rectangle(self._left, self._top, self._left + self._width, self._top + self._height, fill="#dddddd", outline="")
@@ -38,18 +42,3 @@ class BoardPainter:
         if sign == "X":
             self._canvas.create_line(x1, y1, x2, y2)
             self._canvas.create_line(x2, y1, x1, y2)
-
-if __name__ == '__main__':
-    tk = Tk()
-    tk.title("Tic Tac Toe")
-    #tk.resizable(False, False)
-    tk.wm_attributes("-topmost", 1)
-
-    painter = BoardPainter(tk, 50, 50)
-    painter.paint([
-            ["X", "X", "X"],
-            ["0", "", "0"],
-            ["", "", "X"]
-    ])
-
-    tk.mainloop()
