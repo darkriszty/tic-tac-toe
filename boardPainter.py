@@ -1,5 +1,3 @@
-from tkinter import *
-
 class BoardPainter:
     _width = 150
     _height = 150
@@ -13,6 +11,13 @@ class BoardPainter:
         self._board = board
         self._canvas.pack()
         self._board.on_next_move = self._paint
+        self._paint()
+
+    def translateCoordinates(self, x, y):
+        row = 2
+        col = 2
+        #TODO create the actual mapping
+        return row, col
 
     def _paint(self):
         self._paint_empty_board()

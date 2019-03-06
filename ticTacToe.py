@@ -1,5 +1,15 @@
-def nextMove(board, ownSign):
-    return 1
+import copy
+from boardPainter import *
+
+def nextMove(board, sign):
+    for rowIndex in range(len(board)):
+        for colIndex in range(len(board[rowIndex])):
+            if test[rowIndex][colIndex] == "":
+                test = copy.deepcopy(board)
+                test[rowIndex][colIndex] = sign
+                if doesWin(test, sign):
+                    return test
+    return board
 
 def doesWin(board, sign):
     for row in board:
