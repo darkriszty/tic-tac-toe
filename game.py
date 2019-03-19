@@ -14,9 +14,12 @@ class Game:
         #TODO: replace with actual logic
         for rowIndex in range(len(self._board.data)):
             for colIndex in range(len(self._board.data[rowIndex])):
-                if self._board.data[rowIndex][colIndex] == "":
+                if self.is_empty(rowIndex, colIndex):
                     self._board.add_next_move(rowIndex, colIndex, "0")
                     return
+
+    def is_empty(self, row, col):
+        return self._board.data[row][col] == ""
 
 class PlayerType(Enum):
     HUMAN = 1

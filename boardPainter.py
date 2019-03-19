@@ -14,9 +14,23 @@ class BoardPainter:
         self._paint()
 
     def translateCoordinates(self, x, y):
-        row = 2
-        col = 2
-        #TODO create the actual mapping
+        row = None
+        col = None
+
+        if self._left <= x and x < self._left + self._width/3:
+            col = 0
+        elif self._left + self._width/3 <= x and x < self._left + self._width/1.5:
+            col = 1
+        elif self._left + self._width/1.5 <= x and x < self._left + self._width:
+            col = 2
+
+        if self._top <= y and y < self._top + self._height / 3:
+            row = 0
+        elif self._top + self._height / 3 <= y and y < self._top + self._height / 1.5:
+            row = 1
+        elif self._top + self._height / 1.5 <= y and y < self._top + self._height:
+            row = 2
+
         return row, col
 
     def _paint(self):

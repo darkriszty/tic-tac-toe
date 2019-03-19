@@ -42,7 +42,11 @@ class GameController:
     def _click_handler(self, eventorigin):
         if not self._allowUserInput: return
         row, col = self._boardPainter.translateCoordinates(eventorigin.x, eventorigin.y)
-        self._board.add_next_move(row, col, "X")
-        self._game._next_player = PlayerType.COMPUTER
-        self._advance()
+        if self._user_selection_valid(row, col):
+            self._board.add_next_move(row, col, "X")
+            self._game._next_player = PlayerType.COMPUTER
+            self._advance()
+    
+    def _user_selection_valid(self, row, col):
+        return row != None and col != None and self._game.is_empty(row, col)
 
