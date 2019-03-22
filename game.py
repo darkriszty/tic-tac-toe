@@ -2,24 +2,35 @@ from enum import Enum
 
 #TODO: this class does not make a lot of sense in its current form; refactor/rename/remove
 class Game:
-    is_over = False
     _board = None
 
     def __init__(self, board):
-        self.is_over = False
         self._board = board
-        self._next_player = PlayerType.HUMAN
+        self.nextPlayer = PlayerType.HUMAN
 
-    def make_next_move(self):
-        #TODO: replace with actual logic
-        for rowIndex in range(len(self._board.data)):
-            for colIndex in range(len(self._board.data[rowIndex])):
-                if self.is_empty(rowIndex, colIndex):
-                    self._board.add_next_move(rowIndex, colIndex, "0")
-                    return
+    def addNextMove(self, row, col):
+        didAdvance = self._board.setMove(row, col, self._currentPlayerSign())
+        if didAdvance: self._switchPlayer()
+        return didAdvance
 
-    def is_empty(self, row, col):
-        return self._board.data[row][col] == ""
+    def isOver(self):
+        return self._board.isFull()
+
+    def _currentPlayerSign(self):
+        if self.nextPlayer == PlayerType.COMPUTER:
+            return "0"
+        return "X"
+
+    def _switchPlayer(self):
+        if self.nextPlayer == PlayerType.COMPUTER:
+            self.nextPlayer = PlayerType.HUMAN
+        else:
+            self.nextPlayer = PlayerType.COMPUTER
+
+    def move_valid(self, row, col):
+        return row != None and col != None and self._board.isEmpty(row, col)
+
+
 
 class PlayerType(Enum):
     HUMAN = 1
