@@ -3,30 +3,20 @@ from game import *
 from boardPainter import *
 from board import *
 from computerPlayer import *
+from gameWindow import *
 
-#TODO: maybe a separate window handler can be extracted from this class
 class GameController:
-    _tk = None
-    _canvas = None
     _allowUserInput = False
 
     def __init__(self):
-        tk = Tk()
-        tk.title("Tic Tac Toe")
-        #tk.resizable(False, False)
-        tk.wm_attributes("-topmost", 1)
-        tk.bind("<Button 1>", self._clickHandler)
-        
-        self._canvas = Canvas(tk, width=800, height=600, bg="#eeeeee")
-        self._tk = tk
+        self._gameWindow = GameWindow(self._inputHandler)
 
     def start(self):
         board = Board()
         self._game = Game(board)
-        self._boardPainter = BoardPainter(self._canvas, board, 50, 50)
         self._computer = ComputerPlayer(board)
         self._advance()
-        self._tk.mainloop()
+        self._gameWindow.setBoard(board)
 
     def _advance(self):
         #this should be a callback that the player types can call?
@@ -44,9 +34,8 @@ class GameController:
         else:
             self._allowUserInput = True
 
-    def _clickHandler(self, eventorigin):
+    def _inputHandler(self, row, col):
         if not self._allowUserInput: return
-        row, col = self._boardPainter.translateCoordinates(eventorigin.x, eventorigin.y)
         if self._game.move_valid(row, col):
             self._game.addNextMove(row, col)
             self._advance()

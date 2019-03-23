@@ -4,12 +4,14 @@ class BoardPainter:
     _canvas = None
     _board = None
 
-    def __init__(self, canvas, board, left, top):
+    def __init__(self, canvas, left, top):
         self._left = left
         self._top = top
         self._canvas = canvas
-        self._board = board
         self._canvas.pack()
+
+    def setBoard(self, board):
+        self._board = board
         self._board.on_next_move = self._paint
         self._paint()
 
