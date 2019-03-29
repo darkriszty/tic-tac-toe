@@ -1,8 +1,5 @@
 from tkinter import Tk, Canvas, messagebox
-from game import *
 from boardPainter import *
-from board import *
-from computerPlayer import *
 
 class GameWindow:
     _allowUserInput = False

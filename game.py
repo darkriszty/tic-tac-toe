@@ -14,7 +14,7 @@ class Game:
         return didAdvance
 
     def isOver(self):
-        return self._board.isFull()
+        return self._board.isFull() or self._doesWin("X") or self._doesWin("0")
 
     def _currentPlayerSign(self):
         if self.nextPlayer == PlayerType.COMPUTER:
@@ -27,10 +27,28 @@ class Game:
         else:
             self.nextPlayer = PlayerType.COMPUTER
 
-    def move_valid(self, row, col):
+    def isMoveValid(self, row, col):
         return row != None and col != None and self._board.isEmpty(row, col)
 
+    def _doesWin(self, sign):
+        boardData = self._board.data
+        for row in boardData:
+            if valuesMatch(row, sign): #check horizontal row
+                return True
+            for colIndex in range(len(row)):
+                if valuesMatch(list(map(lambda x: x[colIndex], boardData)), sign): #check vertical column
+                    return True
 
+        #main diagonal
+        if valuesMatch([ boardData[i][i] for i in range(len(boardData)) ], sign):
+            return True
+        #secondary diagonal
+        if valuesMatch([ row[-i-1] for i, row in enumerate(boardData) ], sign):
+            return True
+        return False
+
+def valuesMatch(values, sign):
+    return all(sign == v for v in values)
 
 class PlayerType(Enum):
     HUMAN = 1

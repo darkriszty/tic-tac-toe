@@ -1,6 +1,5 @@
-from tkinter import Tk, Canvas, messagebox
+from tkinter import messagebox
 from game import *
-from boardPainter import *
 from board import *
 from computerPlayer import *
 from gameWindow import *
@@ -36,6 +35,6 @@ class GameController:
 
     def _inputHandler(self, row, col):
         if not self._allowUserInput: return
-        if self._game.move_valid(row, col):
+        if self._game.isMoveValid(row, col):
             self._game.addNextMove(row, col)
             self._advance()
